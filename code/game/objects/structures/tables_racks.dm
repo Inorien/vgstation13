@@ -594,7 +594,7 @@
 /obj/structure/table/woodentable/cultify()
 	return
 
-/obj/structure/table/woodentable/poker //No specialties, Just a mapping object.
+/obj/structure/table/woodentable/poker
 	name = "gambling table"
 	desc = "A seedy table for seedy dealings in seedy places."
 	icon_state = "pokertable"
