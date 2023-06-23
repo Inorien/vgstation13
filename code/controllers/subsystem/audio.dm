@@ -25,6 +25,21 @@
 	//this is where the in-use channels be
 	var/use_list  = list()
 
+/datum/subsystem/audio/fire(resumed = FALSE)
+	if (!resumed)
+		//?
+
+	//for our initial terrible implementation:
+	  //have list of SOUND EMITTING THINGS
+	  //for each SOUND EMITTING THING:
+	    //for each player:
+		  //call playaudio_local (or something similar) with update = 1
+
+	//do not expect there to be many SOUND EMITTING THINGS (<50/map probably)
+
+	//problem - need to store parameters for these calls
+	//solution - replace playsound with enqueuement to this system
+
 /datum/subsystem/audio/proc/doInit()
 	for (var/i in CHANNEL_LOWEST_FREE to CHANNEL_HIGHEST_FREE)
 		free_list.Add(i)
@@ -82,11 +97,15 @@
 		var/turf/player_turf = get_turf(player)
 
 		//uhh how do i actually reserve the sound channel
-
 		//assign callback to player on move that reruns play_local with update flag on
 		//consider handling of update - cant touch status yet (?) pass each separate flag in or just octal and decode there?
 		//fire off initial play of sound akin to original with update = 0
-		player.playaudio_local(turf_source, soundin, vol, frequency, falloff, gas_modified, channel, wait, update, repeat)
+		var/ch = 0
+		if (channel == 0)
+			ch ==
+
+		player.playaudio_local(turf_source, soundin, vol, frequency, falloff, gas_modified, channel, wait, update = 0, repeat)
+		player.register_event(/event/moved, src, playaudio_local(turf_source, soundin, vol, frequency, falloff, gas_modified, channel, wait, update = 1, repeat))
 
 //Per-channel handling of individual sound on client, mimics legacy behaviour somewhat
 /proc/playaudio_local(var/turf/turf_source, soundin, vol as num, frequency, falloff, gas_modified, var/channel = 0, var/wait = FALSE, var/update = 0, var/repeat = 0)
